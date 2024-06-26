@@ -9,10 +9,13 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
-# Copy the rest of the project
+# Copy the source code
 COPY src src
 
-# Install dependencies and build the project
+# Ensure the Maven wrapper has execute permission
+RUN chmod +x mvnw
+
+# Build the project
 RUN ./mvnw clean install
 
 # Copy the packaged jar file into the container
@@ -23,4 +26,3 @@ EXPOSE 8080
 
 # Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
