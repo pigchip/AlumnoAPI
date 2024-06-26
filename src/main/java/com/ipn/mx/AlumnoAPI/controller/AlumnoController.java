@@ -1,15 +1,18 @@
 package com.ipn.mx.AlumnoAPI.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.ipn.mx.AlumnoAPI.entity.Alumno;
 import com.ipn.mx.AlumnoAPI.service.AlumnoService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/alumnos")
-@CrossOrigin(origins = "*")
 public class AlumnoController {
     @Autowired
     private AlumnoService alumnoService;
@@ -25,14 +28,14 @@ public class AlumnoController {
     }
 
     @PostMapping
-    public Alumno createAlumno(@RequestBody Alumno alumno) {
-        return alumnoService.saveAlumno(alumno);
+    public ResponseEntity<Alumno> createAlumno(@Valid @RequestBody Alumno alumno) {
+        return ResponseEntity.ok(alumnoService.saveAlumno(alumno));
     }
 
     @PutMapping("/{id}")
-    public Alumno updateAlumno(@PathVariable Long id, @RequestBody Alumno alumno) {
+    public ResponseEntity<Alumno> updateAlumno(@PathVariable Long id, @Valid @RequestBody Alumno alumno) {
         alumno.setId(id);
-        return alumnoService.saveAlumno(alumno);
+        return ResponseEntity.ok(alumnoService.saveAlumno(alumno));
     }
 
     @DeleteMapping("/{id}")
